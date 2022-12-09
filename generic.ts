@@ -11,6 +11,11 @@ function simpleState(initial: string): [() => string, (v: string) => void]
   ];
 }
 
+const [st1getter, st1setter] = simpleState("aaa");
+console.log(st1getter());
+st1setter("bbb");
+console.log(st1getter());
+
 // 제네릭 함수
 function simpleState2<T>(initial: T): [() => T, (v: T) => void] 
 {
@@ -23,7 +28,7 @@ function simpleState2<T>(initial: T): [() => T, (v: T) => void]
   ];
 }
 
-const [st1getter, st1setter] = simpleState2(1);
-console.log(st1getter());
-st1setter(2);
-console.log(st1getter());
+const [st2getter, st2setter] = simpleState2(1);
+console.log(st2getter());
+st2setter(2);
+console.log(st2getter());
