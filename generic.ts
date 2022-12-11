@@ -28,7 +28,49 @@ function simpleState2<T>(initial: T): [() => T, (v: T) => void]
   ];
 }
 
-const [st2getter, st2setter] = simpleState2(1);
+const [st2getter, st2setter] = simpleState2<string|null>(null);
 console.log(st2getter());
-st2setter(2);
+st2setter("str");
 console.log(st2getter());
+
+// 사용할 타입을 인터페이스로 추가 
+// 제네릭은 타입스크립트에서 있어 클래스, 함수, 인터페이스 등 아무 곳에 적용할 수 있음
+interface Rank<RankItem> {
+  item: RankItem,
+  rank: number,
+}
+
+function ranker<RankItem>(items:RankItem[], rank:(v:RankItem) => number): RankItem[]
+{  
+  const ranks: Rank<RankItem>[] = items.map((item) => ({
+    item,
+    rank: rank(item),
+  }));
+
+  ranks.sort((a, b) => a.rank - b.rank);
+
+  return ranks.map((rank) => rank.item);
+}
+
+interface Squid {
+  name: string,
+  hp: number,
+}
+
+const squidGame: Squid[] = [
+  {
+    name: "Player456",
+    hp: 100,
+  },
+  {
+    name: "Player80",
+    hp: 80,
+  },
+  {
+    name: "Player218",
+    hp: 90,
+  }
+]
+
+const ranks = ranker(squidGame, ({hp}) => hp);
+console.log(ranks);
